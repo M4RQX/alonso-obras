@@ -6,6 +6,15 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Alonso Obras · remodelações, electricidade e canalização no Areeiro desde 1963</title>
 <meta name="description" content="Electro Alonso, no Bairro dos Actores desde 1963. Remodelações completas, electricidade, canalização, gás, pintura e fachadas. Linha permanente 24 horas: 929 438 452.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_PT">
+<meta property="og:url" content="https://m4rqx.github.io/alonso-obras/">
+<meta property="og:title" content="Alonso Obras · Areeiro, Lisboa, desde 1963">
+<meta property="og:description" content="Remodelações, electricidade, canalização, gás e pintura no Bairro dos Actores. Alvará IMPIC n.º 82585.">
+<meta property="og:image" content="https://m4rqx.github.io/alonso-obras/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Varandas de ferro da fachada de um prédio na Praça da Ilha do Faial, recuperada e pintada pela Alonso Obras, ao lado do logótipo">
 <link rel="preload" href="assets/fontes/fraunces.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fontes/publicsans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="assets/img/icone.png" type="image/png">
@@ -74,6 +83,8 @@ h3{font-size:clamp(20px,1.9vw,25px);line-height:1.25;letter-spacing:-.008em}
 .salto:focus{position:static;display:inline-block;margin:10px;padding:10px 16px;
   background:var(--verm);color:var(--sobre-verm)}
 :where(a,button):focus-visible{outline:3px solid var(--verm-tinta);outline-offset:3px}
+/* no fundo escuro o vermelho dá 2,87:1; o rosa da .sobre-escuro .rot dá 9,3:1 */
+.fita :focus-visible,.sobre-escuro :focus-visible,footer :focus-visible,.lupa :focus-visible{outline-color:#f0a5a2}
 
 /* ─── o rótulo numerado, o device que mais trabalha na página ───────────── */
 /* flex-wrap, senao a 200% de texto num ecra de 390 o rotulo mede 244px numa
@@ -85,6 +96,11 @@ h3{font-size:clamp(20px,1.9vw,25px);line-height:1.25;letter-spacing:-.008em}
 .rot::before{content:"";width:34px;height:1px;background:var(--verm);flex:none;
   align-self:center}
 .rot b{font-weight:700;font-variant-numeric:tabular-nums}
+/* rotulo comprido: o texto todo num so item flex, ao lado do traco, a quebrar por dentro */
+.rot-txt{flex:1 1 0;min-width:0}
+/* em duas linhas, o traco acompanha a primeira */
+.rot:has(.rot-txt){align-items:flex-start}
+.rot:has(.rot-txt)::before{align-self:auto;margin-top:calc(.75em - .5px)}
 .sobre-escuro .rot{color:#f0a5a2}
 .sobre-escuro .rot::before{background:var(--verm)}
 
@@ -258,6 +274,11 @@ figure{margin:0}
 .ad-leg b{font-family:Fraunces,serif;font-weight:700;font-size:clamp(19px,2.2vw,26px);
   letter-spacing:-.012em;color:var(--tinta)}
 .ad-leg span{font-size:14.5px;color:var(--segundo)}
+/* a legenda do Durante e mais comprida e parte em duas linhas: subgrid para as
+   duas fotografias assentarem na mesma linha de base */
+@media (min-width:661px){.ad-fotos{grid-template-rows:auto auto;row-gap:0}
+  .ad-fotos figure{display:grid;grid-row:span 2;grid-template-rows:subgrid;align-items:end}
+  .ad-fotos .ad-leg{align-self:start}}
 .ad-nota{margin-top:clamp(26px,3vw,38px);padding-top:22px;border-top:1px solid var(--linha);
   font-size:16px;color:var(--legenda);max-width:min(52ch,100%)}
 .ad-nota b{color:var(--tinta);font-weight:600}
@@ -274,10 +295,10 @@ figure{margin:0}
   color:var(--tinta);font-variant-numeric:tabular-nums}
 .ano span{font-family:"Public Sans",sans-serif;font-weight:600;font-size:12px;
   letter-spacing:.18em;text-transform:uppercase;color:var(--verm-tinta);
-  max-width:14ch;line-height:1.6}
+  max-width:24ch;line-height:1.6}
 
 /* ─── a casa ───────────────────────────────────────────────────────────── */
-.casa{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+.casa{display:grid;grid-template-columns:minmax(0,36rem);
   gap:clamp(28px,4vw,72px);align-items:start;margin-top:clamp(26px,3vw,40px)}
 .casa p{font-size:17px;line-height:1.7;color:var(--corpo)}
 .casa .nome{margin-top:24px;padding-top:22px;border-top:1px solid var(--linha)}
@@ -350,12 +371,19 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
   .fita ul{grid-template-columns:minmax(0,1fr)}
   .fita li{border-left:0;border-top:1px solid var(--linha-esc)}
   .fita li:first-child{border-top:0}
-  .obra-fotos{grid-template-columns:minmax(0,1fr)}
-  .obra-fotos figure:first-child{grid-column:span 1}
+  .leg,.custo{font-size:15px}
   .cab nav{gap:2px 18px}
   .cab nav a{font-size:14px;min-height:38px}
   .rot{font-size:11.5px;letter-spacing:.16em;gap:10px}
   .rot::before{width:22px}
+  .cab .btn{display:none}
+}
+/* a 320 o menu partia em duas linhas e o cabeçalho media 227 px: aqui cabe numa
+   linha a toda a largura, e se partir (texto a 200%) as linhas são mais baixas */
+@media (max-width:400px){
+  .cab .env{padding-block:8px;row-gap:6px}
+  .cab nav{width:100%;justify-content:space-between;gap:0 8px}
+  .cab nav a{font-size:13px;min-height:36px}
 }
 
 /* ─── papel ────────────────────────────────────────────────────────────── */
@@ -383,7 +411,7 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
    e o botao "voltar" do browser fecha-a. As imagens da sobreposicao sao
    loading="lazy" dentro de um display:none, por isso nao se descarregam ate
    alguem abrir uma. */
-.zoom{display:block;position:relative;cursor:zoom-in}
+.zoom{display:block;position:relative;cursor:zoom-in;scroll-margin-top:24px}
 .zoom::after{content:"";position:absolute;right:10px;bottom:10px;width:30px;height:30px;
   background:rgba(13,12,10,.72) no-repeat center/15px 15px;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M15 3h6v6h-2V6.4l-4.3 4.3-1.4-1.4L17.6 5H15V3zM9 21H3v-6h2v2.6l4.3-4.3 1.4 1.4L6.4 19H9v2z'/%3E%3C/svg%3E");
@@ -411,12 +439,16 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
   justify-self:center;align-self:center}
 @media print{.zoom::after{display:none}.lupa{display:none!important}}
 
-/* ─── onde fica a sede ─────────────────────────────────────────────────────
+/* ─── onde fica ─────────────────────────────────────────────────────
    Desenhado aqui dentro a partir do OpenStreetMap. Nao e um mapa incorporado:
    um iframe da Google traria pedidos a terceiros e com eles a obrigacao de
    barra de cookies. Serve para encontrar a porta, nao para argumentar. */
 .mapa-caixa{border:1px solid var(--linha);background:var(--cartao);padding:6px;
-  max-width:min(30rem,100%)}
+  max-width:min(30rem,100%);margin-top:24px}
+.mapa-morada{font-size:16px;line-height:1.5;color:var(--corpo);margin-top:12px;max-width:min(30rem,100%)}
+.mapa-morada b{font-weight:700;color:var(--tinta)}
+.mapa-fonte{font-size:13px;line-height:1.45;color:var(--segundo);margin-top:6px;max-width:min(30rem,100%)}
+.mapa-fonte a{color:inherit}
 .mapa{display:block;width:100%;height:auto}
 .mapa .pred path{fill:#e2dacb;stroke:none}
 .mapa .via path{fill:none;stroke:#c6bdac;stroke-width:1.3;stroke-linecap:round}
@@ -456,7 +488,7 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
       <a href="#contactos">Contactos</a>
     </nav>
     <a class="btn" href="tel:+351218486295">
-      <svg aria-hidden="true"><use href="#i-tel"></use></svg>Pedir orçamento · 21 848 62 95</a>
+      <svg aria-hidden="true"><use href="#i-tel"></use></svg>Ligar · 21&nbsp;848&nbsp;62&nbsp;95</a>
   </div>
 </header>
 
@@ -465,14 +497,14 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
 <section class="heroi">
   <div class="heroi-grelha">
     <div class="heroi-texto">
-      <p class="rot"><b>Desde 1963</b> · Areeiro, Lisboa</p>
+      <p class="rot"><span class="rot-txt"><b>Desde&nbsp;1963</b>&nbsp;· Areeiro,&nbsp;Lisboa&nbsp;· Piquete&nbsp;24&nbsp;horas</span></p>
       <h1>Conhecemos estes prédios <em>por dentro.</em></h1>
       <p class="sub">Fazemos tudo o que a sua casa precisa, desde mudar uma lâmpada
         à remodelação total. Electricidade, canalização, gás, pintura e fachadas,
         em casa, na loja ou no condomínio.</p>
       <div class="acoes">
         <a class="btn" href="tel:+351218486295">
-          <svg aria-hidden="true"><use href="#i-tel"></use></svg>Pedir orçamento · 21 848 62 95</a>
+          <svg aria-hidden="true"><use href="#i-tel"></use></svg>Ligar · 21&nbsp;848&nbsp;62&nbsp;95</a>
         <a class="btn btn-2" href="#obras">Ver as obras aqui à volta</a>
       </div>
     </div>
@@ -490,13 +522,12 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
 <div class="fita">
   <div class="env">
     <ul>
-      <li><b>1963</b><span>No mesmo bairro desde então</span></li>
-      <li><b>8</b><span>Ofícios numa equipa só, sem subcontratos</span></li>
-      <li><a href="tel:+351929438452"><b>24&nbsp;h</b><span>Linha permanente · 929 438 452</span></a></li>
-      <li><b>82585</b><span>Alvará IMPIC, classe 2</span></li>
+      <li><b>1963</b><span>No mesmo bairro desde&nbsp;então</span></li>
+      <li><b>6</b><span>Ofícios na equipa&nbsp;fixa</span></li>
+      <li><a href="tel:+351929438452"><b>24&nbsp;h</b><span>Linha permanente · 929&nbsp;438&nbsp;452</span></a></li>
+      <li><b>82585</b><span>Alvará IMPIC, classe&nbsp;2</span></li>
     </ul>
-    <p class="fita-nota">O alvará confirma-se no registo público do IMPIC, e o ano
-      está no letreiro desde que a casa abriu.</p>
+    <p class="fita-nota">O alvará confirma-se no registo público do IMPIC.</p>
   </div>
 </div>
 
@@ -511,7 +542,7 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
     <div class="cartoes">
       <article class="cartao">
         <div class="cartao-foto">
-          <a class="zoom" href="#z15" aria-label="Ampliar: Cozinha remodelada com exaustor em pedra e bancada clara"><img src="assets/v2/cartao-remodelacoes.jpg" width="900" height="675" loading="lazy" decoding="async"
+          <a class="zoom" id="f15" href="#z15" aria-label="Ampliar: Cozinha remodelada com exaustor em pedra e bancada clara"><img src="assets/v2/cartao-remodelacoes.jpg" width="900" height="675" loading="lazy" decoding="async"
                alt="Cozinha remodelada com exaustor em pedra e bancada clara"></a>
           <span class="cartao-n">01</span>
         </div>
@@ -523,7 +554,7 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
       </article>
       <article class="cartao">
         <div class="cartao-foto">
-          <a class="zoom" href="#z16" aria-label="Ampliar: Prédio com andaimes montados durante uma obra de fachada"><img src="assets/v2/cartao-predio.jpg" width="900" height="675" loading="lazy" decoding="async"
+          <a class="zoom" id="f16" href="#z16" aria-label="Ampliar: Prédio com andaimes montados durante uma obra de fachada"><img src="assets/v2/cartao-predio.jpg" width="900" height="675" loading="lazy" decoding="async"
                alt="Prédio com andaimes montados durante uma obra de fachada"></a>
           <span class="cartao-n">02</span>
         </div>
@@ -535,14 +566,13 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
       </article>
       <article class="cartao">
         <div class="cartao-foto">
-          <a class="zoom" href="#z17" aria-label="Ampliar: Escadas de serviço em ferro, raspadas e pintadas de verde"><img src="assets/v2/cartao-escadas.jpg" width="900" height="675" loading="lazy" decoding="async"
+          <a class="zoom" id="f17" href="#z17" aria-label="Ampliar: Escadas de serviço em ferro, raspadas e pintadas de verde"><img src="assets/v2/cartao-escadas.jpg" width="900" height="675" loading="lazy" decoding="async"
                alt="Escadas de serviço em ferro, raspadas e pintadas de verde"></a>
           <span class="cartao-n">03</span>
         </div>
         <div class="cartao-corpo">
           <h3>Serralharia e escadas</h3>
-          <p>Escadas de serviço de ferro raspadas e pintadas, guardas e estruturas.
-            O trabalho que ninguém vê até deixar de estar bom.</p>
+          <p>Escadas de serviço de ferro raspadas e pintadas, e outros trabalhos de serralharia.</p>
         </div>
       </article>
     </div>
@@ -553,11 +583,10 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
   <div class="env">
     <div class="duas">
       <div>
-        <p class="rot"><b>02</b> · Sem subcontratos a mais</p>
+        <p class="rot"><b>02</b> · A equipa fixa</p>
         <h2>Não precisa de encontrar uma equipa auxiliar</h2>
         <p>A Alonso Obras tem uma equipa fixa capaz de tratar da totalidade da
-          remodelação do seu edifício. Depois da obra continuamos do outro lado
-          do telefone.</p>
+          remodelação do seu edifício.</p>
       </div>
       <ul class="visto">
         <li><svg aria-hidden="true"><use href="#i-ok"></use></svg><span><b>Canalização</b></span></li>
@@ -576,25 +605,25 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
   <div class="env">
     <div class="cabeca">
       <p class="rot"><b>03</b> · O mesmo prédio</p>
-      <h2>Antes e depois,<br>na Praça da Ilha do Faial</h2>
+      <h2>Durante e depois,<br>na Praça da Ilha do Faial</h2>
       <p class="intro">As duas fotografias são nossas e são do mesmo edifício: uma com os
         andaimes montados, outra no fim do trabalho.</p>
     </div>
     <div class="ad-fotos">
       <figure>
-        <a class="zoom" href="#z13" aria-label="Ampliar: O prédio da Praça da Ilha do Faial com os andaimes montados, durante a obra de fachada"><img src="assets/v2/par-durante.jpg" width="860" height="711" loading="lazy" decoding="async"
+        <a class="zoom" id="f13" href="#z13" aria-label="Ampliar: O prédio da Praça da Ilha do Faial com os andaimes montados, durante a obra de fachada"><img src="assets/v2/par-durante.jpg" width="860" height="711" loading="lazy" decoding="async"
              alt="O prédio da Praça da Ilha do Faial com os andaimes montados, durante a obra de fachada"></a>
-        <figcaption class="ad-leg"><b>Durante</b><span>Andaimes montados na fachada</span></figcaption>
+        <figcaption class="ad-leg"><b>Durante</b><span>Andaimes montados na fachada · Praça da Ilha do Faial, Estefânia</span></figcaption>
       </figure>
       <figure>
-        <a class="zoom" href="#z14" aria-label="Ampliar: O mesmo prédio no fim da obra, com a fachada recuperada e pintada e as varandas de ferro tratadas"><img src="assets/v2/par-depois.jpg" width="860" height="711" loading="lazy" decoding="async"
+        <a class="zoom" id="f14" href="#z14" aria-label="Ampliar: O mesmo prédio no fim da obra, com a fachada recuperada e pintada e as varandas de ferro tratadas"><img src="assets/v2/par-depois.jpg" width="860" height="711" loading="lazy" decoding="async"
              alt="O mesmo prédio no fim da obra, com a fachada recuperada e pintada e as varandas de ferro tratadas"></a>
-        <figcaption class="ad-leg"><b>Depois</b><span>Fachada recuperada e pintada</span></figcaption>
+        <figcaption class="ad-leg"><b>Depois</b><span>Fachada recuperada e pintada · Praça da Ilha do Faial, Estefânia</span></figcaption>
       </figure>
     </div>
-    <p class="ad-nota">São dois alçados do mesmo edifício, não são dois prédios parecidos.
-      <b>Repare na faixa de azulejo que sobe entre o nosso prédio e o vizinho amarelo</b>,
-      à esquerda das duas fotografias: é a mesma.</p>
+    <p class="ad-nota">São duas fotografias do mesmo prédio, tiradas de sítios diferentes.
+      <b>Repare na faixa de azulejo que sobe entre este prédio e o vizinho amarelo</b>,
+      à esquerda das duas: é a mesma.</p>
   </div>
 </section>
 
@@ -604,28 +633,28 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
       <p class="rot"><b>04</b> · Portefólio</p>
       <h2>Rua a rua</h2>
       <p class="intro">Aqui pode verificar e conferir a qualidade dos nossos trabalhos.
-        Cada uma tem a morada da rua onde foi feita.</p>
+        Cada obra tem o nome da rua onde foi feita.</p>
     </div>
 
     <div class="obra">
       <div class="obra-texto">
         <span class="chapa">Rua Carlos Mardel</span>
-        <p class="desc">A rua começa a menos de cem metros da porta da oficina.
+        <p class="desc">A rua começa a menos de cem metros da nossa porta.
           Cozinha nova, portas e rodapés pintados, portadas de madeira restauradas.</p>
       </div>
       <div class="obra-fotos">
         <figure>
-          <a class="zoom" href="#z1" aria-label="Ampliar: Cozinha com armários castanhos, bancada clara e lava-loiça de encastrar"><img src="assets/v2/carlos-mardel-cozinha.jpg" width="880" height="587" loading="lazy" decoding="async"
+          <a class="zoom" id="f1" href="#z1" aria-label="Ampliar: Cozinha com armários castanhos, bancada clara e lava-loiça de encastrar"><img src="assets/v2/carlos-mardel-cozinha.jpg" width="880" height="587" loading="lazy" decoding="async"
                alt="Cozinha com armários castanhos, bancada clara e lava-loiça de encastrar"></a>
           <figcaption class="leg">Cozinha nova, com bancada clara e lava-loiça de encastrar.</figcaption>
         </figure>
         <figure>
-          <a class="zoom" href="#z2" aria-label="Ampliar: Porta e rodapé pintados de branco"><img src="assets/v2/carlos-mardel-porta.jpg" width="660" height="440" loading="lazy" decoding="async"
+          <a class="zoom" id="f2" href="#z2" aria-label="Ampliar: Porta e rodapé pintados de branco"><img src="assets/v2/carlos-mardel-porta.jpg" width="660" height="440" loading="lazy" decoding="async"
                alt="Porta e rodapé pintados de branco"></a>
           <figcaption class="leg">Portas e rodapés pintados.</figcaption>
         </figure>
         <figure>
-          <a class="zoom" href="#z3" aria-label="Ampliar: Janela com portadas de madeira restauradas e soalho novo"><img src="assets/v2/carlos-mardel-janela.jpg" width="660" height="440" loading="lazy" decoding="async"
+          <a class="zoom" id="f3" href="#z3" aria-label="Ampliar: Janela com portadas de madeira restauradas e soalho novo"><img src="assets/v2/carlos-mardel-janela.jpg" width="660" height="440" loading="lazy" decoding="async"
                alt="Janela com portadas de madeira restauradas e soalho novo"></a>
           <figcaption class="leg">Portadas de madeira restauradas.</figcaption>
         </figure>
@@ -640,17 +669,17 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
       </div>
       <div class="obra-fotos">
         <figure>
-          <a class="zoom" href="#z4" aria-label="Ampliar: Cozinha remodelada com exaustor em pedra sobre a placa"><img src="assets/v2/joao-do-rio-cozinha-exaustor.jpg" width="880" height="587" loading="lazy" decoding="async"
+          <a class="zoom" id="f4" href="#z4" aria-label="Ampliar: Cozinha remodelada com exaustor em pedra sobre a placa"><img src="assets/v2/joao-do-rio-cozinha-exaustor.jpg" width="880" height="587" loading="lazy" decoding="async"
                alt="Cozinha remodelada com exaustor em pedra sobre a placa"></a>
           <figcaption class="leg">Cozinha remodelada, com exaustor em pedra.</figcaption>
         </figure>
         <figure>
-          <a class="zoom" href="#z5" aria-label="Ampliar: Casa de banho com móvel, sanita e duche com resguardo de vidro"><img src="assets/v2/joao-do-rio-casa-de-banho.jpg" width="660" height="440" loading="lazy" decoding="async"
+          <a class="zoom" id="f5" href="#z5" aria-label="Ampliar: Casa de banho com móvel, sanita e duche com resguardo de vidro"><img src="assets/v2/joao-do-rio-casa-de-banho.jpg" width="660" height="440" loading="lazy" decoding="async"
                alt="Casa de banho com móvel, sanita e duche com resguardo de vidro"></a>
           <figcaption class="leg">Casa de banho com duche e resguardo.</figcaption>
         </figure>
         <figure>
-          <a class="zoom" href="#z6" aria-label="Ampliar: Coluna de forno e micro-ondas encastrados em armário branco"><img src="assets/v2/joao-do-rio-forno.jpg" width="660" height="440" loading="lazy" decoding="async"
+          <a class="zoom" id="f6" href="#z6" aria-label="Ampliar: Coluna de forno e micro-ondas encastrados em armário branco"><img src="assets/v2/joao-do-rio-forno.jpg" width="660" height="440" loading="lazy" decoding="async"
                alt="Coluna de forno e micro-ondas encastrados em armário branco"></a>
           <figcaption class="leg">Forno e micro-ondas encastrados.</figcaption>
         </figure>
@@ -665,17 +694,17 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
       </div>
       <div class="obra-fotos">
         <figure>
-          <a class="zoom" href="#z7" aria-label="Ampliar: Móvel de casa de banho em madeira com estrutura preta"><img src="assets/v2/alexandre-braga-movel-madeira.jpg" width="880" height="587" loading="lazy" decoding="async"
+          <a class="zoom" id="f7" href="#z7" aria-label="Ampliar: Móvel de casa de banho em madeira com estrutura preta"><img src="assets/v2/alexandre-braga-movel-madeira.jpg" width="880" height="587" loading="lazy" decoding="async"
                alt="Móvel de casa de banho em madeira com estrutura preta"></a>
           <figcaption class="leg">Móvel de madeira feito por medida.</figcaption>
         </figure>
         <figure>
-          <a class="zoom" href="#z8" aria-label="Ampliar: Cozinha com forno encastrado, placa e torneira extensível"><img src="assets/v2/alexandre-braga-cozinha.jpg" width="660" height="440" loading="lazy" decoding="async"
+          <a class="zoom" id="f8" href="#z8" aria-label="Ampliar: Cozinha com forno encastrado, placa e torneira extensível"><img src="assets/v2/alexandre-braga-cozinha.jpg" width="660" height="440" loading="lazy" decoding="async"
                alt="Cozinha com forno encastrado, placa e torneira extensível"></a>
           <figcaption class="leg">Forno, placa e torneira extensível.</figcaption>
         </figure>
         <figure>
-          <a class="zoom" href="#z9" aria-label="Ampliar: Porta branca nova aberta sobre soalho claro"><img src="assets/v2/alexandre-braga-porta.jpg" width="660" height="440" loading="lazy" decoding="async"
+          <a class="zoom" id="f9" href="#z9" aria-label="Ampliar: Porta branca nova aberta sobre soalho claro"><img src="assets/v2/alexandre-braga-porta.jpg" width="660" height="440" loading="lazy" decoding="async"
                alt="Porta branca nova aberta sobre soalho claro"></a>
           <figcaption class="leg">Portas novas e soalho assente.</figcaption>
         </figure>
@@ -690,17 +719,17 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
       </div>
       <div class="obra-fotos">
         <figure>
-          <a class="zoom" href="#z10" aria-label="Ampliar: Cozinha branca com placa, forno e lava-loiça"><img src="assets/v2/cesario-verde-cozinha.jpg" width="880" height="587" loading="lazy" decoding="async"
+          <a class="zoom" id="f10" href="#z10" aria-label="Ampliar: Cozinha branca com placa, forno e lava-loiça"><img src="assets/v2/cesario-verde-cozinha.jpg" width="880" height="587" loading="lazy" decoding="async"
                alt="Cozinha branca com placa, forno e lava-loiça"></a>
           <figcaption class="leg">Cozinha branca, com placa e forno.</figcaption>
         </figure>
         <figure>
-          <a class="zoom" href="#z11" aria-label="Ampliar: Soalho de pinho antigo restaurado, com os nós da madeira à vista"><img src="assets/v2/cesario-verde-soalho.jpg" width="660" height="440" loading="lazy" decoding="async"
+          <a class="zoom" id="f11" href="#z11" aria-label="Ampliar: Soalho de pinho antigo restaurado, com os nós da madeira à vista"><img src="assets/v2/cesario-verde-soalho.jpg" width="660" height="440" loading="lazy" decoding="async"
                alt="Soalho de pinho antigo restaurado, com os nós da madeira à vista"></a>
           <figcaption class="leg">Soalho de pinho antigo, restaurado.</figcaption>
         </figure>
         <figure>
-          <a class="zoom" href="#z12" aria-label="Ampliar: Zona de lavandaria com máquina de lavar encastrada"><img src="assets/v2/cesario-verde-lavandaria.jpg" width="660" height="440" loading="lazy" decoding="async"
+          <a class="zoom" id="f12" href="#z12" aria-label="Ampliar: Zona de lavandaria com máquina de lavar encastrada"><img src="assets/v2/cesario-verde-lavandaria.jpg" width="660" height="440" loading="lazy" decoding="async"
                alt="Zona de lavandaria com máquina de lavar encastrada"></a>
           <figcaption class="leg">Zona de lavandaria.</figcaption>
         </figure>
@@ -714,7 +743,7 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
   <div class="env">
     <div class="cabeca">
       <p class="rot"><b>05</b> · Lista completa</p>
-      <h2>O que podemos fazer em sua casa</h2>
+      <h2>Tudo o que fazemos</h2>
     </div>
     <div class="listas">
       <ul>
@@ -757,7 +786,7 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
         <div>
           <h3>Cheiro a gás</h3>
           <p>Não acenda a luz nem carregue em interruptores. Abra as janelas, feche a
-            torneira do contador, saia de casa e ligue-nos já da rua.</p>
+            torneira do contador e saia de casa. Já na rua, ligue para o 112 e depois para&nbsp;nós.</p>
         </div>
         <div>
           <h3>Casa toda sem luz</h3>
@@ -767,7 +796,7 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
       </div>
       <p class="folha-num">
         <a href="tel:+351929438452">929&nbsp;438&nbsp;452</a>
-        <span class="custo">Custo de chamada para a rede móvel nacional.</span>
+        <span class="custo">Custo de chamada para a rede móvel&nbsp;nacional.</span>
       </p>
       <p class="so-papel">Alonso Obras · Alvará IMPIC n.º 82585, classe 2 ·
         geral@electroalonso.com · Rua Actriz Virgínia, 22 B, 1900-027 Lisboa</p>
@@ -779,8 +808,8 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
   <div class="env">
     <div class="cabeca">
       <p class="rot"><b>07</b> · A casa</p>
-      <p class="ano"><b>1963</b><span>No mesmo bairro desde então</span></p>
-      <h2>Sessenta e três anos<br>no mesmo bairro</h2>
+      <p class="ano"><b>1963</b><span>Primeiro como Electro&nbsp;Alonso, hoje&nbsp;Alonso&nbsp;Obras</span></p>
+      <h2>Mais de sessenta anos<br>no mesmo bairro</h2>
     </div>
     <div class="casa">
       <div>
@@ -797,12 +826,6 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
             corpo técnico especializado, habilitado e credenciado.</span>
         </p>
       </div>
-      <figure>
-        <a class="zoom" href="#z18" aria-label="Ampliar: O prédio da Praça da Ilha do Faial com os andaimes montados durante a obra"><img src="assets/v2/ilha-do-faial-andaimes.jpg" width="1000" height="667" loading="lazy" decoding="async"
-             alt="O prédio da Praça da Ilha do Faial com os andaimes montados durante a obra"></a>
-        <figcaption class="leg">O mesmo prédio da fotografia de cima, com os andaimes montados.
-          Praça da Ilha do Faial.</figcaption>
-      </figure>
     </div>
   </div>
 </section>
@@ -816,13 +839,13 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
     <div class="cont">
       <div>
         <p class="n n1"><a href="tel:+351929438452">929&nbsp;438&nbsp;452</a></p>
-        <p class="custo">Urgências, 24 horas · rede móvel nacional</p>
+        <p class="custo">Linha permanente 24 horas · custo de chamada para a rede móvel&nbsp;nacional</p>
         <p class="n n2"><a href="tel:+351218486295">21&nbsp;848&nbsp;62&nbsp;95</a></p>
-        <p class="custo">Orçamentos · rede fixa nacional</p>
+        <p class="custo">Custo de chamada para a rede fixa&nbsp;nacional</p>
       </div>
       <div class="cont-acao">
         <a class="btn" href="tel:+351218486295">
-          <svg aria-hidden="true"><use href="#i-tel"></use></svg>Pedir orçamento · 21 848 62 95</a>
+          <svg aria-hidden="true"><use href="#i-tel"></use></svg>Ligar · 21&nbsp;848&nbsp;62&nbsp;95</a>
         <p class="mail"><a href="mailto:geral@electroalonso.com?subject=Pedido%20de%20or%C3%A7amento&amp;body=Morada%3A%0AO%20que%20precisa%3A%0AQuando%3A%0ATelefone%3A%0A">geral@electroalonso.com</a></p>
         <div class="cont-redes">
           <a href="https://www.facebook.com/Electro-Alonso-1671112079855157" rel="noopener" target="_blank">
@@ -843,134 +866,129 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
       </div>
     </div>
       <div class="mapa-caixa"><svg class="mapa" viewBox="180 180 360 360" role="img" aria-labelledby="mp-t mp-d" xmlns="http://www.w3.org/2000/svg"><title id="mp-t">Onde fica a Alonso Obras</title><desc id="mp-d">Planta do Bairro dos Actores, no Areeiro, com a porta da Alonso Obras assinalada na Rua Actriz Virgínia, 22 B. Desenhada a partir de dados dos colaboradores do OpenStreetMap.</desc><g class="pred" aria-hidden="true"><path d="M317 331L318 340L330 341L330 328L317 327L317 331Z"/><path d="M308 346L307 359L330 357L331 341L318 340L316 347L308 346Z"/><path d="M250 267L280 270L279 279L250 277L250 267Z"/><path d="M292 313L290 311L300 302L309 303L309 312L292 313Z"/><path d="M278 287L291 288L291 279L279 278L278 287Z"/><path d="M278 287L276 313L283 314L290 311L291 288L278 287Z"/><path d="M249 285L250 277L279 279L278 287L249 285Z"/><path d="M280 267L302 269L301 289L291 288L291 279L279 278L280 267Z"/><path d="M347 178L345 174L352 172L348 167L334 172L338 182L347 178Z"/><path d="M321 308L332 311L330 328L320 327L316 307L321 308Z"/><path d="M221 265L250 267L250 277L221 274L221 265Z"/><path d="M322 303L322 299L332 300L332 311L321 310L322 303Z"/><path d="M291 288L290 311L300 302L301 289L291 288Z"/><path d="M240 491L241 476L221 478L220 486L240 491Z"/><path d="M344 519L344 527L338 526L338 513L352 510L352 519L344 519Z"/><path d="M238 507L240 491L229 490L217 496L228 506L238 507Z"/><path d="M336 552L337 539L348 540L347 552L336 552Z"/><path d="M352 510L363 510L362 523L352 523L352 510Z"/><path d="M241 476L252 466L253 455L247 455L244 461L238 452L229 461L237 467L230 469L230 475L241 476Z"/><path d="M187 438L201 439L200 452L187 448L187 438Z"/><path d="M206 423L207 405L218 406L216 424L206 423Z"/><path d="M207 405L209 386L219 387L218 406L207 405Z"/><path d="M209 386L210 367L221 368L219 387L209 386Z"/><path d="M204 442L206 423L216 424L215 443L204 442Z"/><path d="M298 470L317 471L323 448L312 447L312 462L300 459L298 470Z"/><path d="M252 466L262 467L260 445L253 447L252 466Z"/><path d="M262 467L278 468L277 445L267 444L262 467Z"/><path d="M354 329L354 342L364 343L367 332L354 329Z"/><path d="M415 253L435 256L437 243L417 240L415 253Z"/><path d="M306 229L313 215L305 209L302 213L297 210L292 220L306 229Z"/><path d="M282 242L304 244L306 229L297 226L295 233L283 232L282 242Z"/><path d="M377 331L399 332L409 327L411 298L400 297L398 320L378 318L377 331Z"/><path d="M379 308L388 309L389 296L400 297L398 320L378 318L379 308Z"/><path d="M388 195L393 187L407 195L404 200L388 195Z"/><path d="M371 318L367 319L365 330L354 329L356 312L372 312L371 318Z"/><path d="M453 292L488 294L488 298L500 299L499 308L453 305L453 292Z"/><path d="M378 318L377 331L365 330L367 319L378 318Z"/><path d="M389 296L391 277L413 279L412 289L400 288L400 297L389 296Z"/><path d="M380 208L389 221L399 217L394 208L397 200L388 195L380 208Z"/><path d="M354 342L350 362L370 366L371 353L363 352L364 343L354 342Z"/><path d="M500 299L511 301L510 324L498 323L500 299Z"/><path d="M192 273L207 279L221 274L221 265L193 264L192 273Z"/><path d="M389 221L394 236L404 235L409 229L406 219L400 220L399 217L389 221Z"/><path d="M458 196L466 190L473 200L467 223L455 219L456 207L452 201L458 196Z"/><path d="M415 282L430 283L431 291L453 292L453 305L419 304L415 282Z"/><path d="M394 236L393 252L415 254L416 244L404 242L404 235L394 236Z"/><path d="M356 302L367 302L366 313L356 312L356 302Z"/><path d="M313 215L324 204L319 189L308 193L312 201L305 209L313 215Z"/><path d="M326 405L328 381L306 376L305 388L313 386L317 395L314 404L326 405Z"/><path d="M254 371L227 369L226 379L253 382L254 371Z"/><path d="M254 371L280 374L279 384L253 382L254 371Z"/><path d="M325 420L326 405L304 406L303 413L325 420Z"/><path d="M324 434L325 420L303 421L303 428L324 434Z"/><path d="M305 385L306 376L290 374L290 384L305 385Z"/><path d="M280 374L290 374L290 384L279 384L280 374Z"/><path d="M323 448L324 434L302 435L301 442L310 444L310 448L323 448Z"/><path d="M187 339L168 337L168 348L186 349L187 339Z"/><path d="M281 357L255 355L255 345L281 347L281 357Z"/><path d="M378 375L393 376L395 383L378 382L378 375Z"/><path d="M347 409L348 393L364 397L363 406L347 409Z"/><path d="M198 305L196 331L206 332L207 306L198 305Z"/><path d="M355 500L340 497L341 483L351 484L355 500Z"/><path d="M348 393L352 375L366 375L366 384L361 384L358 393L348 393Z"/><path d="M343 454L344 439L361 443L360 451L343 454Z"/><path d="M205 341L187 339L186 349L204 350L205 341Z"/><path d="M255 355L229 353L229 343L255 345L255 355Z"/><path d="M169 329L171 303L181 304L180 330L169 329Z"/><path d="M366 375L378 375L378 386L366 385L366 375Z"/><path d="M222 342L205 341L204 350L222 352L222 342Z"/><path d="M292 357L281 357L281 347L292 347L292 357Z"/><path d="M346 424L347 409L363 413L362 422L346 424Z"/><path d="M344 439L346 424L362 428L361 437L344 439Z"/><path d="M383 382L382 392L394 394L395 383L383 382Z"/><path d="M341 483L342 468L359 473L359 481L341 483Z"/><path d="M200 278L198 305L207 306L210 279L200 278Z"/><path d="M342 468L343 454L360 458L359 466L342 468Z"/><path d="M307 359L292 357L292 347L308 349L307 359Z"/><path d="M510 324L510 339L493 334L498 323L510 324Z"/><path d="M553 332L547 338L530 334L521 339L521 347L534 344L559 355L563 335L553 332Z"/><path d="M492 324L480 330L480 338L491 335L492 324Z"/><path d="M488 369L488 360L483 354L477 357L476 369L488 369Z"/><path d="M464 368L476 369L477 357L464 356L464 368Z"/><path d="M441 380L441 390L410 389L411 377L441 380Z"/><path d="M451 473L451 460L465 463L465 470L451 473Z"/><path d="M394 354L408 354L407 367L394 367L394 354Z"/><path d="M545 380L535 375L540 365L550 370L545 380Z"/><path d="M428 459L429 444L439 445L439 459L428 459Z"/><path d="M517 443L517 433L531 433L531 443L517 443Z"/><path d="M510 339L510 352L498 352L498 338L510 339Z"/><path d="M409 404L418 404L417 417L408 417L409 404Z"/><path d="M429 431L430 417L440 417L440 431L429 431Z"/><path d="M439 356L452 356L451 368L438 368L439 356Z"/><path d="M534 386L543 391L537 400L529 395L534 386Z"/><path d="M377 442L390 443L389 452L376 451L377 442Z"/><path d="M381 353L394 354L394 367L380 366L381 353Z"/><path d="M381 400L394 401L393 410L380 409L381 400Z"/><path d="M376 451L389 452L388 462L376 461L376 451Z"/><path d="M355 500L356 485L365 486L364 501L355 500Z"/><path d="M406 445L415 446L414 459L406 459L406 445Z"/><path d="M438 487L426 487L426 473L438 473L438 487Z"/><path d="M408 354L424 355L423 367L407 367L408 354Z"/><path d="M410 389L419 390L418 404L409 404L410 389Z"/><path d="M517 433L518 424L531 424L531 433L517 433Z"/><path d="M375 471L387 472L386 481L374 480L375 471Z"/><path d="M424 355L439 356L438 368L423 367L424 355Z"/><path d="M405 472L413 473L413 487L404 486L405 472Z"/><path d="M379 421L392 422L391 430L378 429L379 421Z"/><path d="M535 375L526 370L531 360L540 365L535 375Z"/><path d="M518 424L518 415L532 415L531 424L518 424Z"/><path d="M429 444L429 431L440 431L439 445L429 444Z"/><path d="M408 417L417 417L416 432L407 431L408 417Z"/><path d="M452 356L464 356L464 368L451 368L452 356Z"/><path d="M382 392L394 394L394 401L381 400L382 392Z"/><path d="M407 431L416 432L415 446L406 445L407 431Z"/><path d="M378 433L391 434L390 443L377 442L378 433Z"/><path d="M371 353L381 353L380 366L370 366L371 353Z"/><path d="M471 403L472 390L479 390L479 403L471 403Z"/><path d="M517 457L517 449L531 449L531 457L517 457Z"/><path d="M430 403L431 389L441 390L441 403L430 403Z"/><path d="M380 409L393 410L392 418L380 416L380 409Z"/><path d="M406 459L414 459L413 473L405 472L406 459Z"/><path d="M426 473L427 459L439 459L438 473L426 473Z"/><path d="M518 406L518 397L528 397L528 406L518 406Z"/><path d="M374 480L386 481L386 491L373 490L374 480Z"/><path d="M518 415L518 406L532 407L532 415L518 415Z"/><path d="M499 392L495 379L504 381L505 391L499 392Z"/><path d="M543 391L552 396L546 406L537 400L543 391Z"/><path d="M462 389L462 395L453 394L454 378L469 378L468 389L462 389Z"/><path d="M488 360L498 360L498 352L510 352L505 370L488 369L488 360Z"/><path d="M460 493L466 493L466 503L452 503L450 486L461 487L460 493Z"/><path d="M376 490L386 491L383 501L370 501L376 490Z"/><path d="M524 369L521 347L533 347L533 356L524 369Z"/><path d="M254 230L232 224L232 228L224 227L224 235L253 237L254 230Z"/><path d="M283 232L261 226L261 230L254 230L253 237L282 240L283 232Z"/><path d="M409 327L444 329L445 312L452 312L453 305L411 303L409 327Z"/><path d="M479 416L478 429L471 428L471 416L479 416Z"/><path d="M471 416L471 403L479 403L479 416L471 416Z"/><path d="M377 548L376 557L364 557L365 547L377 548Z"/><path d="M383 538L383 548L369 547L369 537L383 538Z"/><path d="M379 527L378 538L365 537L366 526L379 527Z"/><path d="M381 511L385 521L371 520L371 511L381 511Z"/><path d="M344 527L349 531L348 540L337 539L338 526L344 527Z"/><path d="M452 434L452 421L467 424L467 431L452 434Z"/><path d="M461 473L465 483L450 486L451 473L461 473Z"/><path d="M425 516L437 513L437 526L425 523L425 516Z"/><path d="M396 549L397 537L412 540L412 548L396 549Z"/><path d="M452 421L453 408L467 411L467 418L452 421Z"/><path d="M453 408L453 394L467 398L467 406L453 408Z"/><path d="M448 532L449 513L462 514L461 522L456 522L457 532L448 532Z"/><path d="M451 460L452 447L467 450L467 458L451 460Z"/><path d="M452 447L452 434L466 437L466 444L452 447Z"/><path d="M462 514L473 514L470 528L461 524L462 514Z"/><path d="M437 526L437 538L421 535L422 528L437 526Z"/><path d="M397 537L398 525L413 528L413 535L397 537Z"/><path d="M408 522L398 525L399 512L412 513L408 522Z"/><path d="M316 313L309 312L309 303L322 303L316 313Z"/><path d="M338 182L344 197L348 197L347 178L338 182Z"/><path d="M362 179L358 197L362 198L370 184L362 179Z"/><path d="M370 184L375 175L361 167L357 172L370 184Z"/><path d="M348 197L349 184L356 182L358 197L348 197Z"/><path d="M407 195L396 184L420 150L423 165L407 195Z"/><path d="M315 180L319 189L308 193L305 184L315 180Z"/><path d="M305 184L302 171L310 168L315 180L305 184Z"/><path d="M438 243L428 194L418 196L422 241L438 243Z"/><path d="M438 487L437 503L423 502L424 493L430 494L429 487L438 487Z"/><path d="M423 502L424 491L415 491L415 502L423 502Z"/><path d="M415 494L415 502L402 502L401 486L410 487L409 494L415 494Z"/></g><g class="via" aria-hidden="true"><path d="M317 155L310 148L299 145L133 130L111 125L82 111L65 98L49 82L32 55L21 24L15 -33"/><path d="M93 472L105 473L119 485L272 686"/><path d="M172 355L131 355L91 364L62 376"/><path d="M323 530L251 524L246 519L249 480L254 475L327 481"/><path d="M695 503L565 508"/><path d="M343 370L449 373"/><path d="M394 507L378 690"/><path d="M439 686L449 373"/><path d="M518 304L514 375"/><path d="M561 676L565 508"/><path d="M651 608L658 504"/><path d="M319 595L324 600L508 604"/><path d="M199 359L194 425L191 427L170 425L167 422L172 355"/><path d="M709 712L703 708L702 702L744 630"/><path d="M595 607L598 506"/><path d="M514 375L527 376L662 453L682 474L695 503"/><path d="M349 220L338 208L328 185"/><path d="M433 51L434 86"/><path d="M271 38L430 22"/><path d="M203 137L202 142"/><path d="M638 294L629 278L629 258"/><path d="M506 285L518 304"/><path d="M651 608L688 611"/><path d="M576 404L598 498L598 506"/><path d="M651 608L649 633L636 632"/><path d="M439 686L438 727"/><path d="M514 375L506 680"/><path d="M518 304L522 296L531 287"/><path d="M430 22L423 -60L420 -66"/><path d="M739 502L731 494L699 428L678 401L674 388L664 372L653 365L561 339"/><path d="M518 321L510 321"/><path d="M678 401L673 415L653 447"/><path d="M673 415L682 407"/><path d="M-87 557L13 520"/><path d="M-59 519L4 496"/><path d="M22 545L-64 576"/><path d="M634 237L698 256L709 254L712 251L726 217L730 192L725 166L734 149L687 123L658 174"/><path d="M433 51L436 59L445 67"/><path d="M629 258L634 237L632 228L623 214L603 200L599 195L593 181L593 165L598 151L659 50L669 39L688 33L710 36L772 76L781 89L784 98L784 158"/><path d="M616 313L613 322L607 326L601 326L597 320L542 303L545 287"/><path d="M629 258L621 272L605 285"/><path d="M476 240L478 215L490 206L496 214L490 219L488 243L486 247"/><path d="M21 324L-2 336"/><path d="M-2 336L17 346L30 357"/><path d="M669 56L659 50"/><path d="M708 82L700 98L737 119L746 103L708 82"/><path d="M729 48L708 82"/><path d="M595 607L614 607"/><path d="M187 339L187 349"/><path d="M479 509L482 374"/><path d="M187 349L186 357"/><path d="M193 264L192 273"/><path d="M192 273L187 339"/><path d="M510 321L498 320"/><path d="M561 339L550 336"/><path d="M550 336L518 326"/><path d="M498 320L452 321"/><path d="M197 216L194 221"/><path d="M194 252L193 264"/><path d="M446 219L449 193L458 173"/><path d="M458 173L466 169L488 169L497 173L503 180L513 183"/><path d="M494 61L539 88"/><path d="M458 173L431 169"/><path d="M549 -75L563 -67L565 -63L563 -59L494 61"/><path d="M494 61L490 54L480 47L475 35"/><path d="M464 56L473 55L488 61L494 61"/><path d="M200 147L199 157"/><path d="M199 159L200 163L197 216"/><path d="M9 54L17 51"/><path d="M-49 79L9 54"/><path d="M17 51L28 46"/><path d="M4 496L-4 473"/><path d="M697 322L698 310L707 301"/><path d="M707 301L683 300L658 302"/><path d="M508 604L595 607"/><path d="M511 510L332 506"/><path d="M304 123L305 131L299 145"/><path d="M299 110L271 38"/><path d="M271 38L248 -23"/><path d="M695 503L686 652"/><path d="M199 157L199 159"/><path d="M13 520L4 496"/><path d="M22 545L26 556"/><path d="M13 520L22 545"/><path d="M490 170L596 -7"/><path d="M186 357L172 355"/><path d="M199 359L336 369"/><path d="M186 357L199 359"/><path d="M680 718L681 710"/><path d="M108 -30L114 28L124 39L134 42L145 40L151 37L159 24L156 -27"/><path d="M744 630L688 611"/><path d="M565 508L511 510"/><path d="M565 508L568 398"/><path d="M272 686L274 692L270 701"/><path d="M309 135L304 123"/><path d="M449 373L514 375"/><path d="M762 271L750 292L746 295L731 299L707 301"/><path d="M676 787L680 718"/><path d="M356 227L349 220"/><path d="M430 22L433 51"/><path d="M304 123L299 110"/><path d="M328 185L322 168"/><path d="M322 168L309 135"/><path d="M202 142L200 147"/><path d="M204 147L203 157"/><path d="M202 142L204 147"/><path d="M203 157L200 163"/><path d="M198 222L197 231"/><path d="M194 221L194 231"/><path d="M197 216L198 222"/><path d="M194 231L195 239"/><path d="M195 239L194 243"/><path d="M197 231L195 239"/><path d="M739 502L695 503"/><path d="M404 372L394 507"/><path d="M686 652L681 710"/></g><g class="via via-2" aria-hidden="true"><path d="M341 229L336 234"/><path d="M366 241L374 209"/><path d="M494 -75L492 -51L481 -8L467 26L445 67"/><path d="M93 472L99 463L99 453"/><path d="M45 340L28 316L1 253"/><path d="M69 465L76 490"/><path d="M336 234L320 247L309 252L268 249"/><path d="M440 265L-36 224L-57 226L-129 239L-304 277"/><path d="M-404 301L-302 282L-128 242L-80 233L-36 230L439 272"/><path d="M607 673L439 686"/><path d="M795 665L794 672L788 677L753 698L696 716L689 715L681 710"/><path d="M439 272L528 281L545 287"/><path d="M332 427L322 547"/><path d="M560 274L440 265"/><path d="M316 714L334 479"/><path d="M434 86L413 122"/><path d="M12 236L318 262L335 271"/><path d="M20 319L26 347"/><path d="M374 209L458 64"/><path d="M366 203L349 220"/><path d="M343 370L350 298L353 286L361 273"/><path d="M109 664L110 693"/><path d="M110 693L109 711"/><path d="M87 534L83 499L86 481"/><path d="M498 264L386 257L376 252L366 241"/><path d="M314 737L316 720"/><path d="M322 547L319 595"/><path d="M305 712L303 734"/><path d="M319 595L313 663"/><path d="M313 663L308 696"/><path d="M339 336L336 369"/><path d="M334 479L343 370"/><path d="M335 271L342 292"/><path d="M52 231L-11 225"/><path d="M194 243L52 231"/><path d="M445 67L434 86"/><path d="M119 723L118 711"/><path d="M109 711L113 785"/><path d="M652 717L651 704L640 685L626 676L607 673"/><path d="M76 490L83 525L87 534"/><path d="M109 664L94 583L87 534"/><path d="M118 711L115 680L109 664"/><path d="M681 710L675 707L659 707L651 704"/><path d="M652 717L657 714L667 713L680 718"/><path d="M-15 235L20 319"/><path d="M57 366L47 345"/><path d="M58 435L69 465"/><path d="M99 453L57 366"/><path d="M45 340L39 336L32 337L27 341L26 347"/><path d="M26 347L36 375"/><path d="M545 287L600 306L643 327L677 347L692 360"/><path d="M782 455L757 399L740 369L721 345L705 329L681 311L658 302"/><path d="M692 360L703 373"/><path d="M560 274L521 266L498 264"/><path d="M605 285L560 274"/><path d="M703 373L727 414L758 488"/><path d="M434 278L545 287"/><path d="M308 696L270 701"/><path d="M69 465L78 474L90 473"/><path d="M86 481L90 473"/><path d="M336 369L332 427"/><path d="M614 754L630 749L640 742L647 733L652 717"/><path d="M336 234L333 243L332 260L335 271"/><path d="M361 273L364 265L366 241"/><path d="M439 686L308 696"/><path d="M335 271L348 276L361 273"/><path d="M-7 234L12 236"/><path d="M1 253L-7 234"/><path d="M366 241L360 230L356 227"/><path d="M389 270L417 272L434 278"/><path d="M361 273L380 269L389 270"/><path d="M342 292L339 336"/><path d="M40 387L47 406"/><path d="M36 375L40 387"/><path d="M47 345L45 340"/><path d="M270 701L249 700L118 711"/><path d="M308 696L305 712"/><path d="M316 720L316 714"/><path d="M658 302L638 294"/><path d="M638 294L605 285"/><path d="M47 406L58 435"/><path d="M680 718L689 722L698 722L747 707"/><path d="M356 227L349 226L341 229"/><path d="M349 220L341 229"/><path d="M458 64L478 29L492 -6L503 -54"/><path d="M90 473L93 472"/><path d="M410 128L366 203"/><path d="M268 249L194 243"/><path d="M413 122L410 128"/></g><g class="pin" aria-hidden="true"><circle class="halo" cx="360" cy="360" r="17"/><circle class="ponto" cx="360" cy="360" r="7"/><text class="pin-t" x="360" y="328" text-anchor="middle">Alonso Obras</text><text class="pin-m" x="360" y="345" text-anchor="middle">Rua Actriz Virgínia, 22 B</text></g><g class="escala" aria-hidden="true"><path d="M22 700h84M22 696v8M106 696v8"/><text x="64" y="690">100 m</text></g></svg></div>
+    <p class="mapa-morada"><b>Alonso Obras</b> · Rua Actriz Virgínia,&nbsp;22&nbsp;B</p>
+    <p class="mapa-fonte">Planta desenhada com dados © <a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">colaboradores do OpenStreetMap</a>.</p>
   </div>
 </section>
 
-<div class="lupa" id="z1" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z1" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l1">
   <div class="lupa-topo">
-    <p class="lupa-leg">Cozinha com armários castanhos, bancada clara e lava-loiça de encastrar</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l1">Cozinha com armários castanhos, bancada clara e lava-loiça de encastrar</p>
+    <a class="lupa-sair" href="#f1">Fechar</a>
   </div>
   <img src="assets/v2/carlos-mardel-cozinha.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z2" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z2" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l2">
   <div class="lupa-topo">
-    <p class="lupa-leg">Porta e rodapé pintados de branco</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l2">Porta e rodapé pintados de branco</p>
+    <a class="lupa-sair" href="#f2">Fechar</a>
   </div>
   <img src="assets/v2/carlos-mardel-porta.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z3" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z3" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l3">
   <div class="lupa-topo">
-    <p class="lupa-leg">Janela com portadas de madeira restauradas e soalho novo</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l3">Janela com portadas de madeira restauradas e soalho novo</p>
+    <a class="lupa-sair" href="#f3">Fechar</a>
   </div>
   <img src="assets/v2/carlos-mardel-janela.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z4" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z4" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l4">
   <div class="lupa-topo">
-    <p class="lupa-leg">Cozinha remodelada com exaustor em pedra sobre a placa</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l4">Cozinha remodelada com exaustor em pedra sobre a placa</p>
+    <a class="lupa-sair" href="#f4">Fechar</a>
   </div>
   <img src="assets/v2/joao-do-rio-cozinha-exaustor.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z5" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z5" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l5">
   <div class="lupa-topo">
-    <p class="lupa-leg">Casa de banho com móvel, sanita e duche com resguardo de vidro</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l5">Casa de banho com móvel, sanita e duche com resguardo de vidro</p>
+    <a class="lupa-sair" href="#f5">Fechar</a>
   </div>
   <img src="assets/v2/joao-do-rio-casa-de-banho.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z6" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z6" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l6">
   <div class="lupa-topo">
-    <p class="lupa-leg">Coluna de forno e micro-ondas encastrados em armário branco</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l6">Coluna de forno e micro-ondas encastrados em armário branco</p>
+    <a class="lupa-sair" href="#f6">Fechar</a>
   </div>
   <img src="assets/v2/joao-do-rio-forno.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z7" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z7" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l7">
   <div class="lupa-topo">
-    <p class="lupa-leg">Móvel de casa de banho em madeira com estrutura preta</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l7">Móvel de casa de banho em madeira com estrutura preta</p>
+    <a class="lupa-sair" href="#f7">Fechar</a>
   </div>
   <img src="assets/v2/alexandre-braga-movel-madeira.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z8" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z8" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l8">
   <div class="lupa-topo">
-    <p class="lupa-leg">Cozinha com forno encastrado, placa e torneira extensível</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l8">Cozinha com forno encastrado, placa e torneira extensível</p>
+    <a class="lupa-sair" href="#f8">Fechar</a>
   </div>
   <img src="assets/v2/alexandre-braga-cozinha.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z9" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z9" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l9">
   <div class="lupa-topo">
-    <p class="lupa-leg">Porta branca nova aberta sobre soalho claro</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l9">Porta branca nova aberta sobre soalho claro</p>
+    <a class="lupa-sair" href="#f9">Fechar</a>
   </div>
   <img src="assets/v2/alexandre-braga-porta.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z10" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z10" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l10">
   <div class="lupa-topo">
-    <p class="lupa-leg">Cozinha branca com placa, forno e lava-loiça</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l10">Cozinha branca com placa, forno e lava-loiça</p>
+    <a class="lupa-sair" href="#f10">Fechar</a>
   </div>
   <img src="assets/v2/cesario-verde-cozinha.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z11" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z11" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l11">
   <div class="lupa-topo">
-    <p class="lupa-leg">Soalho de pinho antigo restaurado, com os nós da madeira à vista</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l11">Soalho de pinho antigo restaurado, com os nós da madeira à vista</p>
+    <a class="lupa-sair" href="#f11">Fechar</a>
   </div>
   <img src="assets/v2/cesario-verde-soalho.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z12" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z12" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l12">
   <div class="lupa-topo">
-    <p class="lupa-leg">Zona de lavandaria com máquina de lavar encastrada</p>
-    <a class="lupa-sair" href="#obras">Fechar</a>
+    <p class="lupa-leg" id="l12">Zona de lavandaria com máquina de lavar encastrada</p>
+    <a class="lupa-sair" href="#f12">Fechar</a>
   </div>
   <img src="assets/v2/cesario-verde-lavandaria.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z13" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z13" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l13">
   <div class="lupa-topo">
-    <p class="lupa-leg">O prédio da Praça da Ilha do Faial com os andaimes montados, durante a obra de fachada</p>
-    <a class="lupa-sair" href="#antes-depois">Fechar</a>
+    <p class="lupa-leg" id="l13">O prédio da Praça da Ilha do Faial com os andaimes montados, durante a obra de fachada</p>
+    <a class="lupa-sair" href="#f13">Fechar</a>
   </div>
   <img src="assets/v2/par-durante.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z14" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z14" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l14">
   <div class="lupa-topo">
-    <p class="lupa-leg">O mesmo prédio no fim da obra, com a fachada recuperada e pintada e as varandas de ferro tratadas</p>
-    <a class="lupa-sair" href="#antes-depois">Fechar</a>
+    <p class="lupa-leg" id="l14">O mesmo prédio no fim da obra, com a fachada recuperada e pintada e as varandas de ferro tratadas</p>
+    <a class="lupa-sair" href="#f14">Fechar</a>
   </div>
   <img src="assets/v2/par-depois.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z15" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z15" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l15">
   <div class="lupa-topo">
-    <p class="lupa-leg">Cozinha remodelada com exaustor em pedra e bancada clara</p>
-    <a class="lupa-sair" href="#servicos-topo">Fechar</a>
+    <p class="lupa-leg" id="l15">Cozinha remodelada com exaustor em pedra e bancada clara</p>
+    <a class="lupa-sair" href="#f15">Fechar</a>
   </div>
   <img src="assets/v2/cartao-remodelacoes.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z16" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z16" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l16">
   <div class="lupa-topo">
-    <p class="lupa-leg">Prédio com andaimes montados durante uma obra de fachada</p>
-    <a class="lupa-sair" href="#servicos-topo">Fechar</a>
+    <p class="lupa-leg" id="l16">Prédio com andaimes montados durante uma obra de fachada</p>
+    <a class="lupa-sair" href="#f16">Fechar</a>
   </div>
   <img src="assets/v2/cartao-predio.jpg" alt="" loading="lazy" decoding="async">
 </div>
-<div class="lupa" id="z17" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+<div class="lupa" id="z17" role="dialog" aria-label="Fotografia ampliada" aria-describedby="l17">
   <div class="lupa-topo">
-    <p class="lupa-leg">Escadas de serviço em ferro, raspadas e pintadas de verde</p>
-    <a class="lupa-sair" href="#servicos-topo">Fechar</a>
+    <p class="lupa-leg" id="l17">Escadas de serviço em ferro, raspadas e pintadas de verde</p>
+    <a class="lupa-sair" href="#f17">Fechar</a>
   </div>
   <img src="assets/v2/cartao-escadas.jpg" alt="" loading="lazy" decoding="async">
-</div>
-<div class="lupa" id="z18" role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
-  <div class="lupa-topo">
-    <p class="lupa-leg">O prédio da Praça da Ilha do Faial com os andaimes montados durante a obra</p>
-    <a class="lupa-sair" href="#a-casa">Fechar</a>
-  </div>
-  <img src="assets/v2/ilha-do-faial-andaimes.jpg" alt="" loading="lazy" decoding="async">
 </div>
 
 </main>
@@ -1011,7 +1029,7 @@ footer{background:var(--escuro);color:#b9b0a1;padding-block:clamp(44px,5vw,72px)
     <p class="legal">
       Electro Alonso, Unipessoal, Lda. · NIF&nbsp;500&nbsp;453&nbsp;160 ·
       Alvará de empreiteiro n.º&nbsp;82585, classe&nbsp;2 ·
-      Sede: Rua Actriz Virgínia,&nbsp;22&nbsp;B, 1900-027&nbsp;Lisboa ·
+      Morada: Rua Actriz Virgínia,&nbsp;22&nbsp;B, 1900-027&nbsp;Lisboa ·
       geral@electroalonso.com ·
       Custo de chamada para a rede fixa nacional&nbsp;(21) e para a rede móvel
       nacional&nbsp;(929) ·
